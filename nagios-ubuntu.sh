@@ -4,8 +4,6 @@
 #https://kifarunix.com/install-and-setup-nagios-on-ubuntu-22-04/
 #https://www.virtono.com/community/tutorial-how-to/how-to-install-nagios-on-ubuntu-22-04/#Extract_and_Compile_Nagios_Core
 
-apt-cache policy nagios4
-
 apt update -y
 
 apt install autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php libgd-dev libssl-dev -y
@@ -31,7 +29,7 @@ systemctl restart nagios
 #systemctl status nagios
 systemctl restart apache2
 systemctl enable --now apache2
-ufw allow Apache
+#ufw allow Apache
 
 echo -e "http://Nagios-Server-IP-OR-Hostname/nagios"
 
