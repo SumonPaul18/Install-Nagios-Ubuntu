@@ -82,4 +82,19 @@ systemctl restart nagios
 echo -e " Deafult User(nagioadmin) "
 echo -e " Deafult Password(Which You Given When Exec This Shell ) "
 
+#######################
+# install nagvis
+#######################
+#apt install php-gd php-mbstring graphviz rsync -y
+#git clone https://github.com/NagVis/nagvis.git
+#mv nagvis /usr/local/nagvis
+#ls -l /usr/local/nagvis
+#cd /usr/local/nagvis
+#./install.sh
+#y
+
+
+
+
+
 
