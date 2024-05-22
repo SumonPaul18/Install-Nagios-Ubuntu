@@ -1,0 +1,41 @@
+###################
+define host{
+use linux-box ; 
+host_name commmon-pc ; 
+alias windows ; 
+address 192.168.10.132 ;
+}
+
+###################
+
+define service{
+use generic-service
+host_name commmon-pc
+service_description check-host-alive
+check_command check-host-alive
+}
+
+##################
+
+define hostgroup {
+ hostgroup_name  hostgroup name
+ alias           alias name
+}
+
+define servicegroup {
+    servicegroup_name  service name
+    alias              alias name
+}
+
+define servicegroup{
+servicegroup_name service name
+members hostname,servicename,hostname,servicename,...
+}
+
+vim /usr/local/nagios/etc/nagios.cfg
+
+/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+
+systemctl reload nagios
+
+###################
