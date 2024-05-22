@@ -35,7 +35,6 @@ systemctl start nagios
 systemctl enable nagios
 systemctl restart nagios
 #Access Nagios Dashboard: http://IP-Address/nagios
-systemctl restart nagios
 echo -e "http://Nagios-Server-IP-OR-Hostname/nagios"
 echo -e " Deafult User(nagioadmin) "
 echo -e " Deafult Password(Which You Given When Exec This Shell ) "
