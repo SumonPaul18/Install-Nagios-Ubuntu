@@ -52,12 +52,10 @@ apt install libmcrypt-dev make libssl-dev bc gawk dc build-essential snmp libnet
 wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.0/nagios-plugins-2.4.0.tar.gz
 tar xzf nagios-plugins-2.4.0.tar.gz
 cd nagios-plugins-2.4.0
-./tools/setup 
-./configure 
+./configure --with-nagios-user=nagios --with-nagios-group=nagios
 make
 make install
 ls /usr/local/nagios/libexec/
-#./configure --with-nagios-user=nagios --with-nagios-group=nagios
 systemctl restart nagios.service
 a2enmod ssl 
 a2ensite default-ssl.conf
