@@ -17,7 +17,7 @@ useradd nagios
 usermod -a -G nagios www-data
 wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.7.tar.gz
 tar -zxvf ./nagios-4.4.7.tar.gz
-cd nagios-4.4.7.tar.gz
+cd nagios-4.4.7
 ls
 ./configure --with-httpd-conf=/etc/apache2/sites-enabled
 make all
