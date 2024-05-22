@@ -18,6 +18,8 @@ use generic-service
 host_name commmon-pc
 service_description check-host-alive
 check_command check-host-alive
+retry_interval 1
+check_interval 1
 }
 
 ##################
