@@ -1,25 +1,51 @@
 cd /usr/local/nagios/etc/
+mkdir mydevice myservices
+chown nagios:nagios mydevice/ myservices/
 nano /usr/local/nagios/etc/nagios.cfg
+
+cfg_dir=/usr/local/nagios/etc/mydevice
+cfg_dir=/usr/local/nagios/etc/myservices
+
 /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 systemctl reload nagios
+systemctl status nagios
 
 ###################
+
+nano mydevice/device.cfg
+###################
+define host{
+name linux-box ; 
+use generic-host ;
+check_period 24x7
+check_interval 1
+retry_interval 1
+max_check_attempts 10
+check_command check-host-alive
+notification_period 24x7
+notification_interval 30
+notification_options d,r
+contact_groups admins
+register 0 ;
+}
+#####################
+#Host-Declearation
+#####################
 define host{
 use linux-box ; 
 host_name commmon-pc ; 
 alias windows ; 
 address 192.168.10.132 ;
 }
-
 ###################
 
+nano myservices/device.cfg
+###################
 define service{
 use generic-service
 host_name commmon-pc
 service_description check-host-alive
 check_command check-host-alive
-retry_interval 1
-check_interval 1
 }
 
 ##################
@@ -39,4 +65,136 @@ define servicegroup{
 servicegroup_name service name
 members hostname,servicename,hostname,servicename,...
 }
-###################
+
+########################
+
+define host{
+ use generic-switch
+ host_name cisco_router
+ alias cisco_router
+ address 192.168.10.1
+ hostgroups switches
+ }
+# Define the switch that we'll be monitoring
+define host{
+ use generic-switch
+ host_name switch#1
+ alias switch#1
+ address 192.168.10.5
+ hostgroups switches
+ }
+define host{
+ use generic-switch
+ host_name switch#2
+ alias switch#2
+ address 192.168.11.5
+ hostgroups switches
+ parents cisco_router
+}
+define hostgroup{
+ hostgroup_name switches
+ alias Network Switches
+ members switch#1, switch#2
+}
+
+# Define the Nagios Server (NMS)
+define host{
+ use linux-server
+ host_name UbuntuNagios
+ alias UbuntuNagios
+ address 192.168.10.3
+ }
+
+# Define host for the adjoining PCs
+define host{
+ use linux-server
+ host_name cclinux
+ alias cclinux
+ address 192.168.11.3
+ parents switch#2
+ }
+define host {
+ use linux-server
+ host_name cclinux#2
+ alias cclinux#2
+ address 192.168.10.4
+ parents switch#2
+ }
+
+#SERVICE DEFINITIONS
+# Create a service to PING to switch
+define service{
+ use generic-service
+ host_name switch#1, switch#2, cclinux, cclinux#2,
+UbuntuNagios, cisco_router
+ service_description PING
+ check_command check_ping!200.0,20%!600.0,60%
+ normal_check_interval 5
+ retry_check_interval 1
+ }
+
+# Monitor uptime via SNMP
+define service{
+ use generic-service
+ host_name switch#2
+ service_description Uptime
+ check_command check_snmp!-C public -o sysUpTime.0
+}
+
+# Monitor Port 1 status via SNMP
+define service{
+ use generic-service
+ host_name switch#1
+ service_description Port 1 Link Status
+ check_command check_snmp!-C public -o ifOperStatus.3 -r 1
+-H 192.168.10.5
+}
+
+# Monitor bandwidth via MRTG logs
+define service{
+ use generic-service
+ host_name cisco_router
+ service_description Port 1 Bandwidth Usage
+ check_command
+check_local_mrtgtraf!/var/lib/mrtg/192.168.10.1_2.log!
+AVG!1000000,1000000!5000000,5000000!10
+}
+
+# Define a service to check for PCs.
+define service {
+ use local-service
+ host_name cclinux, cclinux#2
+ service_description Root Partition
+ check_command check_local_disk!20%!10%!/ }
+
+define service{
+ use local-service
+ host_name cclinux, cclinux#2, UbuntuNagios
+ service_description Current Users
+ check_command check_local_users!20!50
+ }
+define service{
+ use local-service
+ host_name cclinux, cclinux#2
+ service_description Total Processes
+ check_command check_local_procs!250!400!RSZDT
+ }
+
+# Define a service to check the load on the PCs
+define service{
+ use local-service
+ host_name cclinux, cclinux#2
+ service_description Current Load
+ check_command check_local_load!5.0,4.0,3.0!10.0,6.0,4.0
+ }
+
+define service {
+ use local-service
+ host_name cclinux, cclinux#2, UbuntuNagios
+ service_description Swap Usage
+ check_command check_local_swap!20!10
+ }
+
+
+
+
