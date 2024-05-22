@@ -75,6 +75,13 @@ sudo systemctl enable apache2
 sed -i 's/nagios@localhost/sumonpaul267@gmail.com/' /usr/local/nagios/etc/objects/contacts.cfg
 
 /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+#If you receive an error like this one:
+#Edit the config file:
+#nano /usr/local/nagios/etc/nagios.cfg
+#And replace the 1 with a 0 in the check_for_updates line:
+#check_for_updates=0
+sed -i 's/check_for_updates=1/check_for_updates=0/' /usr/local/nagios/etc/nagios.cfg
+systemctl start nagios
 
 systemctl restart apache2
 systemctl restart nagios
@@ -85,7 +92,7 @@ echo -e " Deafult Password(Which You Given When Exec This Shell ) "
 #######################
 # install nagvis
 #######################
-#apt install php-gd php-mbstring graphviz rsync -y
+#apt install php-fpm php-gd php-mbstring graphviz rsync g++ make libc6-dev php-net-socket sqlite3  -y
 #git clone https://github.com/NagVis/nagvis.git
 #mv nagvis /usr/local/nagvis
 #ls -l /usr/local/nagvis
