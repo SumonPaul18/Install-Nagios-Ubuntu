@@ -23,7 +23,15 @@ make install
 make install-init
 make install-daemoninit
 make install-commandmode
-systemctl enable nagios.service
+systemctl start nagios
+systemctl enable nagios
+#If you receive an error like this one:
+#Edit the config file:
+#nano /usr/local/nagios/etc/nagios.cfg
+#And replace the 1 with a 0 in the check_for_updates line:
+#check_for_updates=0
+#sed -i 's/check_for_updates=1/check_for_updates=0/' /usr/local/nagios/etc/nagios.cfg
+systemctl start nagios
 make install-config
 make install-webconf
 htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
@@ -55,13 +63,6 @@ a2enmod ssl
 a2ensite default-ssl.conf
 systemctl restart apache2
 systemctl restart nagios
-
-#If you receive an error like this one:
-#Edit the config file:
-#nano /usr/local/nagios/etc/nagios.cfg
-#And replace the 1 with a 0 in the check_for_updates line:
-#check_for_updates=0
-#sed -i 's/check_for_updates=1/check_for_updates=0/' /usr/local/nagios/etc/nagios.cfg
 
 sudo systemctl enable nagios
 sudo systemctl enable apache2
