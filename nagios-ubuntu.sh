@@ -8,7 +8,7 @@
 
 
 apt update && apt upgrade -y
-
+apt update -y
 apt install nano make apache2-utils build-essential autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php libgd-dev libssl-dev -y
 make install-groups-users
 useradd nagios
