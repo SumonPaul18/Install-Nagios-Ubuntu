@@ -30,7 +30,7 @@ systemctl enable nagios
 #nano /usr/local/nagios/etc/nagios.cfg
 #And replace the 1 with a 0 in the check_for_updates line:
 #check_for_updates=0
-#sed -i 's/check_for_updates=1/check_for_updates=0/' /usr/local/nagios/etc/nagios.cfg
+sed -i 's/check_for_updates=1/check_for_updates=0/' /usr/local/nagios/etc/nagios.cfg
 systemctl start nagios
 make install-config
 make install-webconf
