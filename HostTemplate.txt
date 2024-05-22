@@ -1,3 +1,8 @@
+cd /usr/local/nagios/etc/
+nano /usr/local/nagios/etc/nagios.cfg
+/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
+systemctl reload nagios
+
 ###################
 define host{
 use linux-box ; 
@@ -20,6 +25,7 @@ check_command check-host-alive
 define hostgroup {
  hostgroup_name  hostgroup name
  alias           alias name
+ members         
 }
 
 define servicegroup {
@@ -31,11 +37,4 @@ define servicegroup{
 servicegroup_name service name
 members hostname,servicename,hostname,servicename,...
 }
-
-vim /usr/local/nagios/etc/nagios.cfg
-
-/usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
-
-systemctl reload nagios
-
 ###################
