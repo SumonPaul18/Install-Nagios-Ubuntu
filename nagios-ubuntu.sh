@@ -12,7 +12,7 @@
 
 apt update -y
 
-apt install nano make apache2-utils build-essential vautoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php libgd-dev libssl-dev -y
+apt install nano make apache2-utils build-essential autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php libgd-dev libssl-dev -y
 useradd nagios
 usermod -a -G nagios www-data
 wget https://go.nagios.org/get-core/4-5-2/nagios-4.5.2.tar.gz
