@@ -2,17 +2,15 @@
 #Install Nagios Core in Ubuntu 22.04.x
 ##################################
 #Reference: 
-#https://assets.nagios.com/downloads/nagioscore/docs/nagioscore/4/en/quickstart-ubuntu.html
-#https://kifarunix.com/install-and-setup-nagios-on-ubuntu-22-04/
-#https://www.virtono.com/community/tutorial-how-to/how-to-install-nagios-on-ubuntu-22-04/#Extract_and_Compile_Nagios_Core
 #https://hostadvice.com/how-to/web-hosting/ubuntu/how-to-install-nagios-on-an-ubuntu/
 #https://www.tecmint.com/install-nagios-core-in-ubuntu-and-debian/
 ##################################
 
 
-apt update -y
+apt update && apt upgrade -y
 
 apt install nano make apache2-utils build-essential autoconf gcc libc6 make wget unzip apache2 php libapache2-mod-php libgd-dev libssl-dev -y
+make install-groups-users
 useradd nagios
 usermod -a -G nagios www-data
 wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.7.tar.gz
@@ -23,6 +21,7 @@ ls
 make all
 make install
 make install-init
+make install-daemoninit
 make install-commandmode
 systemctl enable nagios.service
 make install-config
