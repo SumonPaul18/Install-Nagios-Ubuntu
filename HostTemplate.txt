@@ -51,6 +51,15 @@ check_command check-host-alive
 ##################
 
 define hostgroup {
+
+    hostgroup_name          Dolonchapa
+    alias                   Dolonchapa
+    members                 Dolonchapa-C01
+}
+
+
+##################
+define hostgroup {
  hostgroup_name  hostgroup name
  alias           alias name
  members         
