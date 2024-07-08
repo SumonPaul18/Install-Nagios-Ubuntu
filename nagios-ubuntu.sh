@@ -65,6 +65,7 @@ systemctl restart nagios
 sudo systemctl enable nagios
 sudo systemctl enable apache2
 
+#Verifying Nagios Configuration Files
 /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 
 #Configuring Nagios
